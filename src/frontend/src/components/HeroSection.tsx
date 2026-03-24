@@ -76,23 +76,23 @@ export default function HeroSection() {
   return (
     <div className="flex h-[300px] sm:h-[380px] md:h-[440px]">
       {/* Left menu panel */}
-      <div className="hidden md:flex flex-col bg-[oklch(0.62_0.18_55)] w-[220px] lg:w-[260px] flex-shrink-0">
+      <div className="hidden md:flex flex-col bg-[#FFD5D5] w-[220px] lg:w-[260px] flex-shrink-0">
         {menuItems.map((item, idx) => (
           <button
             key={item.title}
             type="button"
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-            className="flex items-center justify-between px-4 text-white hover:bg-[oklch(0.55_0.18_50)] transition-all group w-full text-left border-b border-white/15 last:border-0"
+            className="flex items-center justify-between px-4 hover:bg-[#FFBEBE] transition-all group w-full text-left border-b border-[#AFAB68]/20 last:border-0"
             style={{ flex: 1 }}
             data-ocid="hero.menu_item"
           >
             <div className="overflow-hidden">
-              <div className="font-bold text-sm leading-tight">
+              <div className="font-bold text-sm leading-tight text-[#AFAB68]">
                 {item.title}
               </div>
               <div
-                className={`text-xs text-white/80 overflow-hidden transition-all duration-300 ${
+                className={`text-xs text-[#AFAB68]/80 overflow-hidden transition-all duration-300 ${
                   hoveredIndex === idx
                     ? "max-h-8 opacity-100 mt-0.5"
                     : "max-h-0 opacity-0"
@@ -101,17 +101,14 @@ export default function HeroSection() {
                 {item.sub}
               </div>
             </div>
-            {hoveredIndex === idx ? (
-              <ChevronRight
-                size={16}
-                className="text-white flex-shrink-0 ml-2 transition-all"
-              />
-            ) : (
-              <ChevronDown
-                size={16}
-                className="text-white/60 flex-shrink-0 ml-2"
-              />
-            )}
+            <ChevronDown
+              size={16}
+              className="flex-shrink-0 ml-2 transition-transform duration-500 text-[#AFAB68]"
+              style={{
+                transform:
+                  hoveredIndex === idx ? "rotate(-90deg)" : "rotate(0deg)",
+              }}
+            />
           </button>
         ))}
       </div>

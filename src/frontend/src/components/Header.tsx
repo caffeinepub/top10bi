@@ -1,4 +1,11 @@
-import { ChevronDown, MapPin, Search, ShoppingCart } from "lucide-react";
+import {
+  ChevronDown,
+  LogIn,
+  MapPin,
+  Search,
+  ShoppingCart,
+  User,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import { locations, useLocation } from "../context/LocationContext";
 
@@ -31,77 +38,115 @@ const navLinks = [
   "Prime",
 ];
 
+const myAccountItems = [
+  "My Orders",
+  "My Cancelled Orders",
+  "My Wishlist",
+  "Checkout",
+];
+
 export default function Header() {
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [searchQuery, setSearchQuery] = useState("");
   const [cartCount] = useState(3);
   const [locationOpen, setLocationOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const { selectedLocation, setSelectedLocation } = useLocation();
   const locationRef = useRef<HTMLDivElement>(null);
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Tier 1 — Top utility bar */}
-      <div className="bg-[oklch(0.18_0.04_260)] text-white text-xs py-1.5">
-        <div className="max-w-[1400px] mx-auto px-3 flex items-center justify-between">
+      {/* Tier 1 — Top utility bar: light pastel red */}
+      <div style={{ background: "#FFD5D5" }} className="text-xs py-1.5">
+        <div className="max-w-[1400px] mx-auto px-3 flex items-center justify-end">
           <div className="flex items-center gap-1">
+            {/* Welcome */}
+            <div className="flex items-center gap-1 px-2 py-0.5">
+              <span className="text-[#AFAB68] text-xs font-medium tracking-wide">
+                Welcome
+              </span>
+            </div>
+
+            <span style={{ color: "#AFAB68", opacity: 0.4 }}>|</span>
+
+            {/* My Account dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setAccountOpen(true)}
+              onMouseLeave={() => setAccountOpen(false)}
+            >
+              <button
+                type="button"
+                className="account-trigger flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200 hover:bg-[#AFAB68]/15"
+                data-ocid="header.button"
+              >
+                <div className="w-6 h-6 rounded-full bg-[#AFAB68]/20 flex items-center justify-center">
+                  <User size={12} className="text-[#AFAB68]" />
+                </div>
+                <span className="text-[#AFAB68] font-semibold text-xs tracking-wide">
+                  My Account
+                </span>
+                <span className="account-chevron">
+                  <ChevronDown size={11} className="text-[#AFAB68]" />
+                </span>
+              </button>
+
+              {accountOpen && (
+                <div className="absolute top-full right-0 mt-1.5 w-56 bg-white border border-[#AFAB68]/25 rounded-xl shadow-2xl z-50 overflow-hidden">
+                  <div className="bg-[#FFD5D5] px-4 py-3 border-b border-[#AFAB68]/20">
+                    <p className="text-[#AFAB68] font-bold text-sm">
+                      My Account
+                    </p>
+                    <p className="text-[#AFAB68]/70 text-[11px] mt-0.5">
+                      Manage your orders &amp; profile
+                    </p>
+                  </div>
+                  {myAccountItems.map((item) => (
+                    <a
+                      key={item}
+                      href="/"
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-[#AFAB68] hover:bg-[#FFD5D5]/60 transition-colors text-sm font-medium border-b border-[#AFAB68]/10 last:border-0"
+                      data-ocid="header.link"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#AFAB68]/50 flex-shrink-0" />
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <span style={{ color: "#AFAB68", opacity: 0.4 }}>|</span>
+
+            {/* Log In */}
             <a
               href="/"
-              className="bg-[oklch(0.55_0.18_55)] hover:bg-[oklch(0.62_0.18_55)] text-white px-3 py-0.5 rounded-sm font-medium transition-colors"
+              className="login-trigger flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200 hover:bg-[#AFAB68]/15"
               data-ocid="header.link"
             >
-              support
-            </a>
-            <a
-              href="/"
-              className="bg-[oklch(0.55_0.18_55)] hover:bg-[oklch(0.62_0.18_55)] text-white px-3 py-0.5 rounded-sm font-medium transition-colors"
-              data-ocid="header.link"
-            >
-              faq
-            </a>
-            <a
-              href="/"
-              className="bg-[oklch(0.55_0.18_55)] hover:bg-[oklch(0.62_0.18_55)] text-white px-3 py-0.5 rounded-sm font-medium transition-colors"
-              data-ocid="header.link"
-            >
-              knowledge base
-            </a>
-          </div>
-          <div className="flex items-center gap-3 text-gray-300">
-            <span>Welcome</span>
-            <span className="text-white/30">|</span>
-            <a href="/" className="hover:text-white" data-ocid="header.link">
-              My Account
-            </a>
-            <span className="text-white/30">|</span>
-            <a href="/" className="hover:text-white" data-ocid="header.link">
-              My Wishlist
-            </a>
-            <span className="text-white/30">|</span>
-            <a href="/" className="hover:text-white" data-ocid="header.link">
-              Checkout
-            </a>
-            <span className="text-white/30">|</span>
-            <a
-              href="/"
-              className="hover:text-white font-semibold text-white"
-              data-ocid="header.link"
-            >
-              Log In
+              <div className="w-6 h-6 rounded-full bg-[#AFAB68]/20 flex items-center justify-center">
+                <LogIn size={12} className="text-[#AFAB68]" />
+              </div>
+              <span className="text-[#AFAB68] font-semibold text-xs tracking-wide">
+                Log In
+              </span>
+              <span className="login-chevron">
+                <ChevronDown size={11} className="text-[#AFAB68]" />
+              </span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Tier 2 — Main header */}
-      <div className="bg-header-bg text-white px-3 py-2.5">
+      {/* Tier 2 — Main header: light pastel red */}
+      <div style={{ background: "#FFD5D5" }} className="px-3 py-2.5">
         <div className="max-w-[1400px] mx-auto flex items-center gap-3">
           {/* Logo */}
           <a href="/" className="flex-shrink-0" data-ocid="header.link">
             <img
               src="/assets/generated/top10bi-logo-transparent.dim_400x120.png"
               alt="Top10bi"
-              className="h-9 w-auto brightness-0 invert"
+              className="h-9 w-auto"
             />
           </a>
 
@@ -113,23 +158,21 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setLocationOpen((o) => !o)}
-              className="flex items-center gap-1.5 bg-[oklch(0.22_0.04_260)] border border-white/20 rounded px-2.5 py-1.5 cursor-pointer hover:border-orange transition-colors"
+              className="flex items-center gap-1.5 bg-[#F48CA0] border border-[#F48CA0] rounded px-2.5 py-1.5 cursor-pointer hover:bg-[#f07a91] transition-colors"
               data-ocid="header.location_button"
             >
-              <MapPin size={14} className="text-orange flex-shrink-0" />
+              <MapPin size={14} className="text-[#AFAB68] flex-shrink-0" />
               <div className="text-left">
-                <div className="text-[9px] text-gray-400 leading-none">
+                <div className="text-[9px] text-[#AFAB68]/80 leading-none">
                   Deliver to
                 </div>
-                <div className="text-xs text-white font-semibold leading-tight max-w-[90px] truncate">
+                <div className="text-xs text-[#AFAB68] font-semibold leading-tight max-w-[90px] truncate">
                   {selectedLocation}
                 </div>
               </div>
               <ChevronDown
                 size={12}
-                className={`text-gray-300 transition-transform ${
-                  locationOpen ? "rotate-180" : ""
-                }`}
+                className={`text-[#AFAB68] transition-transform ${locationOpen ? "rotate-180" : ""}`}
               />
             </button>
 
@@ -143,9 +186,9 @@ export default function Header() {
                       setSelectedLocation(loc);
                       setLocationOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 text-sm hover:bg-orange/10 transition-colors flex items-center gap-2 ${
+                    className={`w-full text-left px-3 py-2 text-sm hover:bg-[#AFAB68]/10 transition-colors flex items-center gap-2 ${
                       selectedLocation === loc
-                        ? "text-orange font-semibold bg-orange/5"
+                        ? "text-[#AFAB68] font-semibold bg-[#AFAB68]/5"
                         : "text-gray-800"
                     }`}
                     data-ocid="header.location_option"
@@ -154,7 +197,7 @@ export default function Header() {
                       size={12}
                       className={
                         selectedLocation === loc
-                          ? "text-orange"
+                          ? "text-[#AFAB68]"
                           : "text-gray-400"
                       }
                     />
@@ -166,69 +209,86 @@ export default function Header() {
           </div>
 
           {/* Cart status */}
-          <div className="hidden lg:flex items-center gap-2 text-sm text-gray-300 flex-shrink-0">
-            <ShoppingCart size={18} />
+          <div
+            className="hidden lg:flex items-center gap-2 text-sm flex-shrink-0"
+            style={{ color: "#AFAB68" }}
+          >
+            <ShoppingCart size={18} style={{ color: "#AFAB68" }} />
             <span>Your shopping cart is empty</span>
           </div>
 
           {/* Search bar */}
-          <div className="flex-1 flex h-9 rounded overflow-hidden border border-white/20 focus-within:border-orange">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-gray-200 text-gray-800 text-xs px-2 border-r border-gray-300 cursor-pointer outline-none hidden sm:block w-36"
-              data-ocid="header.select"
-            >
-              {categories.map((c) => (
-                <option key={c}>{c}</option>
-              ))}
-            </select>
+          <div className="flex-1 flex h-9 rounded overflow-hidden border border-[#AFAB68]/30 focus-within:border-[#AFAB68]">
+            {/* Category select with custom arrow */}
+            <div className="relative hidden sm:flex items-center flex-shrink-0">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="appearance-none bg-gray-200 text-[#AFAB68] text-xs pl-2 pr-7 h-full border-r border-gray-300 cursor-pointer outline-none w-36"
+                data-ocid="header.select"
+              >
+                {categories.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+              <ChevronDown
+                size={12}
+                style={{ color: "#AFAB68" }}
+                className="absolute right-2 pointer-events-none"
+              />
+            </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search entire store here..."
-              className="flex-1 px-3 text-gray-900 text-sm outline-none"
+              className="flex-1 px-3 text-sm outline-none bg-white"
+              style={{ color: "#AFAB68" }}
               data-ocid="header.search_input"
             />
             <button
               type="button"
-              className="bg-orange hover:bg-orange-dark px-4 flex items-center justify-center transition-colors gap-1.5"
+              className="bg-[#F48CA0] hover:bg-[#f07a91] px-4 flex items-center justify-center transition-colors gap-1.5"
               data-ocid="header.button"
             >
-              <Search size={16} className="text-gray-900" />
-              <span className="text-gray-900 font-bold text-sm hidden sm:block">
+              <Search size={16} style={{ color: "#AFAB68" }} />
+              <span
+                className="font-bold text-sm hidden sm:block"
+                style={{ color: "#AFAB68" }}
+              >
                 Search
               </span>
             </button>
           </div>
 
-          {/* Cart icon */}
+          {/* Cart icon — no "Cart" text */}
           <button
             type="button"
-            className="flex items-center gap-1 hover:border hover:border-white rounded px-2 py-0.5 cursor-pointer relative ml-auto md:ml-0"
+            className="flex items-center gap-1 border border-transparent hover:border-[#AFAB68] rounded px-2 py-0.5 cursor-pointer relative ml-auto md:ml-0 transition-all duration-200"
             data-ocid="header.button"
           >
             <div className="relative">
-              <ShoppingCart size={26} />
-              <span className="absolute -top-2 -right-2 bg-orange text-gray-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              <ShoppingCart size={26} style={{ color: "#AFAB68" }} />
+              <span className="absolute -top-2 -right-2 bg-[#F48CA0] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                 {cartCount}
               </span>
             </div>
-            <span className="font-bold hidden sm:block">Cart</span>
           </button>
         </div>
       </div>
 
-      {/* Tier 3 — Category nav */}
-      <div className="bg-header-nav text-white text-sm hidden md:block">
+      {/* Tier 3 — Category nav: #F48CA0 background */}
+      <div
+        style={{ background: "#F48CA0" }}
+        className="text-sm hidden md:block"
+      >
         <div className="max-w-[1400px] mx-auto flex items-center">
           <div className="flex items-center overflow-x-auto scrollbar-hide">
             {navLinks.map((link) => (
               <a
                 key={link}
                 href="/"
-                className="px-3 py-2 whitespace-nowrap hover:border hover:border-white rounded text-xs font-medium"
+                className="flex items-center gap-1 px-3 py-2 whitespace-nowrap text-[#AFAB68] hover:text-white border border-transparent hover:border-[#AFAB68] hover:bg-[#AFAB68]/10 rounded text-xs font-medium transition-all duration-200"
                 data-ocid="header.link"
               >
                 {link}
@@ -237,13 +297,25 @@ export default function Header() {
           </div>
           <a
             href="/"
-            className="ml-auto px-3 py-2 text-xs whitespace-nowrap hover:border hover:border-white rounded"
+            className="ml-auto flex items-center gap-1 px-3 py-2 text-xs whitespace-nowrap text-[#AFAB68] hover:text-white border border-transparent hover:border-[#AFAB68] hover:bg-[#AFAB68]/10 rounded transition-all duration-200"
             data-ocid="header.link"
           >
             Customer Service
           </a>
         </div>
       </div>
+
+      <style>{`
+        @keyframes chevron-3step {
+          0%   { transform: rotate(0deg); }
+          40%  { transform: rotate(90deg); }
+          100% { transform: rotate(180deg); }
+        }
+        .account-trigger:hover .account-chevron svg,
+        .login-trigger:hover .login-chevron svg {
+          animation: chevron-3step 600ms ease forwards;
+        }
+      `}</style>
     </header>
   );
 }
