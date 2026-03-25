@@ -6,7 +6,7 @@ import {
   ShoppingCart,
   User,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { locations, useLocation } from "../context/LocationContext";
 
 const categories = [
@@ -54,6 +54,10 @@ export default function Header() {
   const { selectedLocation, setSelectedLocation } = useLocation();
   const locationRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    void locationRef;
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Tier 1 — Top utility bar: light pastel red */}
@@ -86,9 +90,6 @@ export default function Header() {
                 <span className="text-[#AFAB68] font-semibold text-xs tracking-wide">
                   My Account
                 </span>
-                <span className="account-chevron">
-                  <ChevronDown size={11} className="text-[#AFAB68]" />
-                </span>
               </button>
 
               {accountOpen && (
@@ -105,10 +106,18 @@ export default function Header() {
                     <a
                       key={item}
                       href="/"
-                      className="flex items-center gap-2.5 px-4 py-2.5 text-[#AFAB68] hover:bg-[#FFD5D5]/60 transition-colors text-sm font-medium border-b border-[#AFAB68]/10 last:border-0"
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-[#AFAB68] transition-colors text-sm font-medium border-b border-[#AFAB68]/10 last:border-0"
+                      style={{ color: "#AFAB68" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "#F48CA0";
+                        e.currentTarget.style.color = "#AFAB68";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "transparent";
+                        e.currentTarget.style.color = "#AFAB68";
+                      }}
                       data-ocid="header.link"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#AFAB68]/50 flex-shrink-0" />
                       {item}
                     </a>
                   ))}
@@ -129,9 +138,6 @@ export default function Header() {
               </div>
               <span className="text-[#AFAB68] font-semibold text-xs tracking-wide">
                 Log In
-              </span>
-              <span className="login-chevron">
-                <ChevronDown size={11} className="text-[#AFAB68]" />
               </span>
             </a>
           </div>
@@ -283,7 +289,7 @@ export default function Header() {
         className="text-sm hidden md:block"
       >
         <div className="max-w-[1400px] mx-auto flex items-center">
-          <div className="flex items-center overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
             {navLinks.map((link) => (
               <a
                 key={link}
@@ -304,18 +310,6 @@ export default function Header() {
           </a>
         </div>
       </div>
-
-      <style>{`
-        @keyframes chevron-3step {
-          0%   { transform: rotate(0deg); }
-          40%  { transform: rotate(90deg); }
-          100% { transform: rotate(180deg); }
-        }
-        .account-trigger:hover .account-chevron svg,
-        .login-trigger:hover .login-chevron svg {
-          animation: chevron-3step 600ms ease forwards;
-        }
-      `}</style>
     </header>
   );
 }
